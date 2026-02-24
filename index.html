@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Animating on Events with Random Position - A-Frame</title>
+    <meta name="description" content="Hello, WebVR! • A-Frame">
+    <script src="https://aframe.io/releases/1.0.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+
+    <script src="https://unpkg.com/aframe-supercraft-loader/dist/aframe-supercraft-loader.min.js"></script>
+  
+</head>
+<body>
+    <a-scene background="color: #FAFAFA" environment="preset: forest">
+        <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: #box"></a-entity>
+        
+        <a-entity id="box" geometry="primitive: box" material="color: red" position="0 1.8 -3" rotation="0 30 0"
+                  animation__mouseenter="property: components.material.material.color; type: color; from: red; to: blue; startEvents: mouseenter; dur: 500"
+                  animation__mouseleave="property: components.material.material.color; type: color; from: blue; to: red; startEvents: mouseleave; dur: 500">
+        </a-entity>
+    </a-scene>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to generate a random position
+            function getRandomPosition() {
+                const x = Math.random() * 20 - 10; // Random x between -10 and 10
+                const y = Math.random() * 5 + 1;   // Random y between 1 and 6
+                const z = Math.random() * 20 - 10; // Random z between -10 and 10
+                return `${x} ${y} ${z}`;
+            }
+
+            var box = document.querySelector('#box');
+
+            // Event listener for animation complete
+            box.addEventListener('animationcomplete__mouseleave', function() {
+                box.setAttribute('position', getRandomPosition());
+            });
+        });
+    </script>
+</body>
+</html>
